@@ -19,7 +19,15 @@ export default class Signup extends Component {
             emailExists: false
         };
 
+        this.baseState = this.state;
+
         this.handleFormReset = this.handleFormReset.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps){
+        if (nextProps.location.state === "rerender") {
+            this.setState(this.baseState);
+        }
     }
 
     validateForm() {
