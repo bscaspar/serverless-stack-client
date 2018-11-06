@@ -22,7 +22,7 @@ class App extends Component {
       await Auth.currentSession();
       this.userHasAuthenticated(true);
     }
-    catch(e) {
+    catch (e) {
       if (e !== 'No current user') {
         alert(e);
       }
@@ -63,17 +63,17 @@ class App extends Component {
               {this.state.isAuthenticated
                 ? <NavItem onClick={this.handleLogout}>Logout</NavItem>
                 : <Fragment>
-                    <LinkContainer to={{
-                      pathname: "/signup",
-                      state: "rerender"
-                    }}>
-                      <NavItem>Signup</NavItem>
-                    </LinkContainer>
-                    <LinkContainer to="/login">
-                      <NavItem>Login</NavItem>
-                    </LinkContainer>
-                  </Fragment>
-                }
+                  <LinkContainer to={{
+                    pathname: "/signup",
+                    state: "rerender"
+                  }}>
+                    <NavItem>Signup</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="/login">
+                    <NavItem>Login</NavItem>
+                  </LinkContainer>
+                </Fragment>
+              }
             </Nav>
           </Navbar.Collapse>
         </Navbar>
