@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { API, Storage } from 'aws-amplify';
-import { s3Upload, s3Delete } from '../libs/awsLib';
-import config from '../config';
-import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import LoaderButton from '../components/LoaderButton';
-import './Notes.css'
+import React, { Component } from "react";
+import { API, Storage } from "aws-amplify";
+import { s3Upload, s3Delete } from "../libs/awsLib";
+import config from "../config";
+import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import LoaderButton from "../components/LoaderButton";
+import "./Notes.css";
 
 class Notes extends Component {
   constructor(props) {
@@ -53,15 +53,15 @@ class Notes extends Component {
     return str.replace(/^\w+-/, "");
   }
 
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
     });
-  }
+  };
 
   handleFileChange = e => {
     this.file = e.target.files[0];
-  }
+  };
 
   saveNote(note) {
     return API.put("notes", `/notes/${this.props.match.params.id}`, {
@@ -75,14 +75,17 @@ class Notes extends Component {
     e.preventDefault();
 
     if (this.file && this.file.size > config.MAX_ATTACHMENT_SIZE) {
-      alert(`Please pick a file smaller then ${config.MAX_ATTACHMENT_SIZE / 1000000} MB.`);
+      alert(
+        `Please pick a file smaller then ${config.MAX_ATTACHMENT_SIZE /
+          1000000} MB.`
+      );
       return;
     }
     this.setState({ isLoading: true });
 
     try {
       attachment = await s3Upload(this.file);
-      if (this.state.note.attachment) {
+      if (this.state.note.attachment !== null) {
         await s3Delete(this.state.note.attachment);
       }
 
@@ -95,7 +98,7 @@ class Notes extends Component {
       alert(e);
       this.setState({ isLoading: false });
     }
-  }
+  };
 
   deleteNote() {
     return API.del("notes", `/notes/${this.props.match.params.id}`);
@@ -116,7 +119,7 @@ class Notes extends Component {
 
     try {
       await this.deleteNote();
-      if (this.file) {
+      if (this.state.note.attachment !== null) {
         await s3Delete(this.state.note.attachment);
       }
       this.props.history.push("/");
@@ -124,12 +127,12 @@ class Notes extends Component {
       alert(e);
       this.setState({ isDeleting: false });
     }
-  }
+  };
 
   render() {
     return (
       <div className="Notes">
-        {this.state.note &&
+        {this.state.note && (
           <form onSubmit={this.handleSubmit}>
             <FormGroup controlId="content">
               <FormControl
@@ -138,7 +141,7 @@ class Notes extends Component {
                 componentClass="textarea"
               />
             </FormGroup>
-            {this.state.note.attachment &&
+            {this.state.note.attachment && (
               <FormGroup>
                 <ControlLabel>Attachment</ControlLabel>
                 <FormControl.Static>
@@ -150,10 +153,12 @@ class Notes extends Component {
                     {this.formatFilename(this.state.note.attachment)}
                   </a>
                 </FormControl.Static>
-              </FormGroup>}
+              </FormGroup>
+            )}
             <FormGroup controlId="file">
-              {!this.state.note.attachment &&
-                <ControlLabel>Attachment</ControlLabel>}
+              {!this.state.note.attachment && (
+                <ControlLabel>Attachment</ControlLabel>
+              )}
               <FormControl onChange={this.handleFileChange} type="file" />
             </FormGroup>
             <LoaderButton
@@ -175,7 +180,8 @@ class Notes extends Component {
               text="Delete"
               loadingText="Deleting..."
             />
-          </form>}
+          </form>
+        )}
       </div>
     );
   }
