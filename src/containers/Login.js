@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
-import { Auth } from 'aws-amplify';
+import React, { Component } from "react";
+import { FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import { Auth } from "aws-amplify";
+import { Link } from "react-router-dom";
 
-import './Login.css'
-import LoaderButton from '../components/LoaderButton';
+import "./Login.css";
+import LoaderButton from "../components/LoaderButton";
 
 export default class Login extends Component {
   constructor(props) {
@@ -23,8 +24,8 @@ export default class Login extends Component {
   handleChange = e => {
     this.setState({
       [e.target.id]: e.target.value
-    })
-  }
+    });
+  };
 
   handleSubmit = async e => {
     e.preventDefault();
@@ -36,9 +37,9 @@ export default class Login extends Component {
       this.props.userHasAuthenticated(true);
     } catch (e) {
       alert(e.message);
-      this.setState({ isLoading: false })
+      this.setState({ isLoading: false });
     }
-  }
+  };
 
   render() {
     return (
@@ -61,6 +62,7 @@ export default class Login extends Component {
               type="password"
             />
           </FormGroup>
+          <Link to="/login/reset">Forgot password?</Link>
           <LoaderButton
             block
             bsSize="large"
@@ -72,6 +74,6 @@ export default class Login extends Component {
           />
         </form>
       </div>
-    )
+    );
   }
 }
