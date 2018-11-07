@@ -1,73 +1,117 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-
+import Loadable from "react-loadable";
+import LoadingSpinner from "./components/LoadingSpinner";
 import AppliedRoute from "./components/AppliedRoute";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
-import Home from "./containers/Home";
-import Login from "./containers/Login";
-import Signup from "./containers/Signup";
-import ResetPassword from "./containers/ResetPassword";
-import NewNote from "./containers/NewNote";
-import Notes from "./containers/Notes";
-import Settings from "./containers/Settings";
-import ChangePassword from "./containers/ChangePassword";
-import ChangeEmail from "./containers/ChangeEmail";
-import NotFound from "./containers/NotFound";
+
+// function myLoadable(opts) {
+//   return Loadable(
+//     Object.assign(
+//       {
+//         loading: LoadingSpinner,
+//         delay: 2000
+//       },
+//       opts
+//     )
+//   );
+// }
+
+const AsyncHome = Loadable({
+  loader: () => import("./containers/Home"),
+  loading: LoadingSpinner
+});
+const AsyncLogin = Loadable({
+  loader: () => import("./containers/Login"),
+  loading: LoadingSpinner
+});
+const AsyncSignup = Loadable({
+  loader: () => import("./containers/Signup"),
+  loading: LoadingSpinner
+});
+const AsyncResetPassword = Loadable({
+  loader: () => import("./containers/ResetPassword"),
+  loading: LoadingSpinner
+});
+const AsyncNewNote = Loadable({
+  loader: () => import("./containers/NewNote"),
+  loading: LoadingSpinner
+});
+const AsyncNotes = Loadable({
+  loader: () => import("./containers/Notes"),
+  loading: LoadingSpinner
+});
+const AsyncSettings = Loadable({
+  loader: () => import("./containers/Settings"),
+  loading: LoadingSpinner
+});
+const AsyncChangePassword = Loadable({
+  loader: () => import("./containers/ChangePassword"),
+  loading: LoadingSpinner
+});
+const AsyncChangeEmail = Loadable({
+  loader: () => import("./containers/ChangeEmail"),
+  loading: LoadingSpinner
+});
+const AsyncNotFound = Loadable({
+  loader: () => import("./containers/NotFound"),
+  loading: LoadingSpinner
+});
 
 export default ({ childProps }) => (
   <Switch>
-    <AppliedRoute path="/" exact component={Home} props={childProps} />
+    <AppliedRoute path="/" exact component={AsyncHome} props={childProps} />
     <UnauthenticatedRoute
       path="/login"
       exact
-      component={Login}
+      component={AsyncLogin}
       props={childProps}
     />
     <UnauthenticatedRoute
       path="/signup"
       exact
-      component={Signup}
+      component={AsyncSignup}
       props={childProps}
     />
     <UnauthenticatedRoute
       path="/login/reset"
       exact
-      component={ResetPassword}
+      component={AsyncResetPassword}
       props={childProps}
     />
     <AuthenticatedRoute
       path="/notes/new"
       exact
-      component={NewNote}
+      component={AsyncNewNote}
       props={childProps}
     />
     <AuthenticatedRoute
       path="/notes/:id"
       exact
-      component={Notes}
+      component={AsyncNotes}
       props={childProps}
     />
     <AuthenticatedRoute
       path="/settings"
       exact
-      component={Settings}
+      component={AsyncSettings}
       props={childProps}
     />
     <AuthenticatedRoute
       path="/settings/password"
       exact
-      component={ChangePassword}
+      component={AsyncChangePassword}
       props={childProps}
     />
     <AuthenticatedRoute
       path="/settings/email"
       exact
-      component={ChangeEmail}
+      component={AsyncChangeEmail}
       props={childProps}
     />
 
     {/* Catch all Route (404) */}
-    <Route component={NotFound} />
+    <Route component={AsyncNotFound} />
   </Switch>
 );
