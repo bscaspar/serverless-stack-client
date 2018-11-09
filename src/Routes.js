@@ -1,10 +1,11 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Loadable from "react-loadable";
-import LoadingSpinner from "./components/LoadingSpinner";
+//import LoadingSpinner from "./components/LoadingSpinner";
 import AppliedRoute from "./components/AppliedRoute";
 import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
+import { Glyphicon } from "react-bootstrap";
 
 // function myLoadable(opts) {
 //   return Loadable(
@@ -18,13 +19,17 @@ import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
 //   );
 // }
 
+const LoadingSpinner = () => <Glyphicon glyph="refresh" className="spinning" />;
+
 const AsyncHome = Loadable({
   loader: () => import("./containers/Home"),
-  loading: LoadingSpinner
+  loading: LoadingSpinner,
+  delay: 500
 });
 const AsyncLogin = Loadable({
   loader: () => import("./containers/Login"),
-  loading: LoadingSpinner
+  loading: LoadingSpinner,
+  delay: 500
 });
 const AsyncSignup = Loadable({
   loader: () => import("./containers/Signup"),
@@ -61,7 +66,12 @@ const AsyncNotFound = Loadable({
 
 export default ({ childProps }) => (
   <Switch>
-    <AppliedRoute path="/" exact component={AsyncHome} props={childProps} />
+    <UnauthenticatedRoute
+      path="/"
+      exact
+      component={AsyncHome}
+      props={childProps}
+    />
     <UnauthenticatedRoute
       path="/login"
       exact
