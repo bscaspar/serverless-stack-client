@@ -66,12 +66,7 @@ const AsyncNotFound = Loadable({
 
 export default ({ childProps }) => (
   <Switch>
-    <UnauthenticatedRoute
-      path="/"
-      exact
-      component={AsyncHome}
-      props={childProps}
-    />
+    <AppliedRoute path="/" exact component={AsyncHome} props={childProps} />
     <UnauthenticatedRoute
       path="/login"
       exact
